@@ -12,13 +12,17 @@ import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.concurrent.duration.Duration
 import scala.util.{ Failure, Success }
 
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import restaurant.data.data.{RestaurantData,Restaurant}
 
 
-object main extends App {
+object main extends JsonMarshaller with App{
 
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher
+    
+        
     val route =
       redirectToNoTrailingSlashIfPresent(StatusCodes.MovedPermanently) {
         pathPrefix("api" / "restaurant") {
@@ -38,8 +42,9 @@ object main extends App {
           } ~
           put{
             path(JavaUUID){ uuid =>
-              complete(s"id is $uuid")
-  
+              entity(as[Restaurant]){ rest =>
+                complete(s"$rest and $uuid")
+              }
             }
           }
 
