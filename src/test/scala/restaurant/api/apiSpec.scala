@@ -42,29 +42,30 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
  
 
   "RestaurantRoutes" should {
-    "return empty list if no restaurants were added" in {
+        "return empty list if no restaurants were added" in {
 
-      HttpRequest(uri = "/api/restaurant") ~> route ~> check {
-        status should ===(StatusCodes.OK)
+            HttpRequest(uri = "/api/restaurant") ~> route ~> check {
+                status should ===(StatusCodes.OK)
 
-        // we expect the response to be json:
-        contentType should ===(ContentTypes.`application/json`)
+                // we expect the response to be json:
+                contentType should ===(ContentTypes.`application/json`)
 
-        // and no entries should be in the list:
-        entityAs[String] should ===("""[]""")
-      }
-    }
+                // and no entries should be in the list:
+                entityAs[String] should ===("""[]""")
+            }
+        }
 
-    "be able to add restataurants (POST /api/restaurants)" in {
-        
-       val request = HttpRequest(
-        HttpMethods.POST,
-        uri = "/api/restaurants",
-        entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
+        "be able to add restataurants (POST /api/restaurants)" in {
+            
+            val request = HttpRequest(
+                HttpMethods.POST,
+                uri = "/api/restaurants",
+                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
 
-      request ~> route ~> check {
-        // and we know what message we're expecting back:
-        entityAs[String] should ===("""done""")
-      }
+            request ~> route ~> check {
+                    // and we know what message we're expecting back:
+                    entityAs[String] should ===("""done""")
+            }
+        }
     }
 }
