@@ -86,6 +86,35 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
                 // and no entries should be in the list:
                 entityAs[String] should ===("""[]""")
             }
+            clean
+        }
+
+        "getting closed and opened restaurants only (GET /api/restaurants)" in {
+            
+            val request1 = HttpRequest(
+                HttpMethods.POST,
+                uri = "/api/restaurant",
+                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
+
+            val request2 = HttpRequest(
+                HttpMethods.POST,
+                uri = "/api/restaurant",
+                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest2))
+
+            request1 ~> route
+            request2 ~> route
+            HttpRequest(uri = "/api/restaurant?closed=0") ~> route ~> check{
+                entityAs[ List[Restaurant] ].length should ===(1)
+            }
+            HttpRequest(uri = "/api/restaurant?closed=1") ~> route ~> check{
+                entityAs[ List[Restaurant] ].length should ===(1)
+            }
+
+            HttpRequest(uri = "/api/restaurant") ~> route ~> check{
+                entityAs[ List[Restaurant] ].length should ===(2)
+            }
+            clean
+
         }
 
         "be able to add restataurants (POST /api/restaurants)" in {
@@ -106,6 +135,7 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
                 contentType should ===(ContentTypes.`application/json`)
                 entityAs[ List[Restaurant] ].head.uuid should ===(uuid)
             }
+            clean
         }
         "prevent adding duplicate restaurants (POST /api/restaurants)" in {
             
@@ -126,6 +156,7 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
                 contentType should ===(ContentTypes.`application/json`)
                 entityAs[ List[Restaurant] ].length should ===(1)
             }
+            clean
 
 
         }
@@ -154,7 +185,7 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
                 contentType should ===(ContentTypes.`application/json`)
                 entityAs[ List[Restaurant] ].head.data.onlinePayment should ===(true)
             }
-
+            clean
 
 
         }
@@ -174,35 +205,10 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
             updateRequest ~> route ~> check {
                  status should !==(StatusCodes.OK)
             }
-
-
-        }
-        "getting closed and opened restaurants only (GET /api/restaurants)" in {
-            
-            val request1 = HttpRequest(
-                HttpMethods.POST,
-                uri = "/api/restaurant",
-                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
-
-            val request2 = HttpRequest(
-                HttpMethods.POST,
-                uri = "/api/restaurant",
-                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest2))
-
-            request1 ~> route
-            request2 ~> route
-            HttpRequest(uri = "/api/restaurant?closed=0") ~> route ~> check{
-                entityAs[ List[Restaurant] ].length should ===(1)
-            }
-            HttpRequest(uri = "/api/restaurant?closed=1") ~> route ~> check{
-                entityAs[ List[Restaurant] ].length should ===(1)
-            }
-
-            HttpRequest(uri = "/api/restaurant") ~> route ~> check{
-                entityAs[ List[Restaurant] ].length should ===(2)
-            }
+            clean
 
         }
+ 
 
 
     }

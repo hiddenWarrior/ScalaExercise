@@ -40,23 +40,29 @@ case class RestaurantList(rests:List[Restaurant]){
 
 trait RestaurantRoute extends JsonMarshaller{
 
- 
+    
     var restaurants = RestaurantList(List[Restaurant]())
     implicit val executionContext = ExecutionContext.global
+
+    def clean = {
+        restaurants = RestaurantList(List[Restaurant]())
+    }
     lazy val route =
       redirectToNoTrailingSlashIfPresent(StatusCodes.MovedPermanently) {
         pathPrefix("api" / "restaurant") {
         
           get {
               parameters('closed.as[Boolean]) { closed =>
-              
-              val filteredRestaurant = Future {
-                restaurants.rests.filter(_.data.closed == closed)
-              }
 
-              onSuccess(filteredRestaurant){ rests =>
-                  complete(rests)
-                  
+              pathEnd{
+                val filteredRestaurant = Future {
+                    restaurants.rests.filter(_.data.closed == closed)
+                }
+
+                onSuccess(filteredRestaurant){ rests =>
+                    complete(rests)
+                    
+                }
               }
               } ~
               pathEnd{
@@ -65,32 +71,37 @@ trait RestaurantRoute extends JsonMarshaller{
             
           } ~
           post {
-               entity(as[Restaurant]){ rest =>
-               //i'm not gonna use future because i used var so thread safety
-                val new_restaurants = restaurants.append_if_not_exists(rest)
-                if(restaurants != new_restaurants){ 
-                    restaurants = new_restaurants
-                    complete("done")
-                }
-                else
-                complete(StatusCodes.AlreadyReported)
+              pathEnd{
+                entity(as[Restaurant]){ rest =>
+                //i'm not gonna use future because i used var so thread safety
+                    val new_restaurants = restaurants.append_if_not_exists(rest)
+                    if(restaurants != new_restaurants){ 
+                        restaurants = new_restaurants
+                        complete("done")
+                    }
+                    else
+                    complete(StatusCodes.AlreadyReported)
 
-                
-              }
+                    
+                }
+                }
           } ~
           put{
             path(JavaUUID){ uuid =>
-              entity(as[Restaurant]){ rest =>
-              //i'm not gonna use future because i used var so thread safety
-              val (new_restaurants,updated) = restaurants.update_if_exists(uuid.toString,rest)
-                if(updated) {
-                    restaurants = new_restaurants
-                    complete("done")
+              pathEnd{
+                entity(as[Restaurant]){ rest =>
+
+                //i'm not gonna use future because i used var so thread safety
+                val (new_restaurants,updated) = restaurants.update_if_exists(uuid.toString,rest)
+                    if(updated) {
+                        restaurants = new_restaurants
+                        complete("done")
+                    }
+                    else{
+                        complete(StatusCodes.custom(409, "object not found", s"object with uuid $uuid not found"))
+                    }
                 }
-                else{
-                    complete(StatusCodes.custom(409, "object not found", s"object with uuid $uuid not found"))
-                }
-            }
+              }
             }
           }
 
