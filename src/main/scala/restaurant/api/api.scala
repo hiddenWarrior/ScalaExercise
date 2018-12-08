@@ -12,16 +12,29 @@ import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.concurrent.duration.Duration
 import scala.util.{ Failure, Success }
 
+import spray.json.DefaultJsonProtocol._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import restaurant.data.data.{RestaurantData,Restaurant}
 
+
+// private case class RestaurantList(rests:List[Restaurant]){
+//     def append_if_exists(restaurant){
+//         restaurants.find(_.uuid == restaurant.uuid) match{
+//                     case Some(restaurant) => rests,false
+//                     case None => 
+//                     restaurants = rest :: restaurants,true
+//                     complete("done") 
+//         }
+
+//     }
+// }
 
 object main extends JsonMarshaller with App{
 
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher
-    
+    var restaurants = List[Restaurant]()
         
     val route =
       redirectToNoTrailingSlashIfPresent(StatusCodes.MovedPermanently) {
@@ -29,21 +42,35 @@ object main extends JsonMarshaller with App{
         
           get {
             parameters('closed.as[Boolean]) { closed =>
-              val response = if(closed) "closed restaurants" else "opened restaurants"
-              complete(response)
+              complete(restaurants.filter(_.data.closed == closed))
               } ~
               pathEnd{
-                complete("all restaurants")
+                complete(restaurants)
               }
             
           } ~
           post {
-               complete("post to all restaurants")
+               entity(as[Restaurant]){ rest =>
+                restaurants.find(_.uuid == rest.uuid) match{
+                    case Some(restaurant) => complete(StatusCodes.AlreadyReported)
+                    case None => 
+                    restaurants = rest :: restaurants
+                    complete("done") 
+                }
+                
+              }
           } ~
           put{
             path(JavaUUID){ uuid =>
               entity(as[Restaurant]){ rest =>
-                complete(s"$rest and $uuid")
+                restaurants.find(_.uuid == uuid) match{
+                    case Some(restaurant) => 
+                        new_restaurants = ()
+                    
+                    case None => 
+                    restaurants = rest :: restaurants
+                    complete("done")
+                }
               }
             }
           }
