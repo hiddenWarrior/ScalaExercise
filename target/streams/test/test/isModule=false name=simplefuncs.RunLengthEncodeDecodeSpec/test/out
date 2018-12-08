@@ -1,0 +1,5 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mRunLengthEncodeDecodeSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mrunLengthEncode[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return "a10b3a1x4y3z1y1x1" if input is "aaaaaaaaaabbbaxxxxyyyzyx"[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mrunLengthDecode[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return "aaaaaaaaaabbbaxxxxyyyzyx" if input is "a10b3a1x4y3z1y1x1" (odd number of letters case)[0m[0m

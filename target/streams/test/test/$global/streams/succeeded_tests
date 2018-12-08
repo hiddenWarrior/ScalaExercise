@@ -1,7 +1,7 @@
 #Successful Tests
-#Sat Dec 08 23:45:37 EET 2018
-simplefuncs.Compose=1544305535654
-simplefuncs.FactorialSpec=1544305535653
-restaurant.api.RestaurantRoutesSpec=1544305537505
-simplefuncs.RunLengthEncodeDecodeSpec=1544305535654
-simplefuncs.PalindromeSpec=1544305535686
+#Sun Dec 09 00:07:10 EET 2018
+simplefuncs.Compose=1544306828347
+simplefuncs.FactorialSpec=1544306828268
+restaurant.api.RestaurantRoutesSpec=1544306829985
+simplefuncs.RunLengthEncodeDecodeSpec=1544306828268
+simplefuncs.PalindromeSpec=1544306828270

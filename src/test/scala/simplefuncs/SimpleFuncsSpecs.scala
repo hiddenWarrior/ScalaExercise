@@ -50,6 +50,10 @@ class Compose extends FlatSpec {
     "compose" should "return 3 if input is(x => x * 2, x => x + 1)(1) " in {
         assert(SimpleFuncs.compose((x:Int) => x * 2, (x:Int) => x + 1)(1) === 4)
     }
+
+    "compose" should "return 49 if input is(x => x * x, x => x + 1)(1) " in {
+        assert(SimpleFuncs.compose((x:Int) => x * x, (x:Int) => x + 1)(6) === 49)
+    }
      
 
 }

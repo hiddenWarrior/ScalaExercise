@@ -12,12 +12,12 @@ import scala.util.{ Failure, Success }
 import scala.io.StdIn
 
 
-object main extends RestaurantRoute with App{
+object APIServer extends RestaurantRoute with App{
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     override implicit val executionContext = system.dispatcher
 
-    val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
+    val bindingFuture = Http().bindAndHandle(route, "localhost", 4000)
 
       bindingFuture.onComplete {
     case Success(bound) =>

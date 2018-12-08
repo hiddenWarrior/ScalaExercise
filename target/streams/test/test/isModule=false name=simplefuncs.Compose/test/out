@@ -1,0 +1,7 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mCompose:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mcompose[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return 4 if input is(x => x + 1, x => x * 2)(1)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mcompose[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return 3 if input is(x => x * 2, x => x + 1)(1)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mcompose[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return 49 if input is(x => x * x, x => x + 1)(1)[0m[0m
