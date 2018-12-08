@@ -40,5 +40,4 @@ object SimpleFuncs{
     def compose[A](a:A => A,b:A => A) = {
         x:A => a(b(x))
     }
-    //def runLengthDecode("a10b3a1x4y3z1y1x1")        // returns "aaaaaaaaaabbbaxxxxyyyzyx"
 }
