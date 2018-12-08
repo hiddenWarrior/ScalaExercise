@@ -10,14 +10,17 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{ Matchers, WordSpec }
 import akka.util.ByteString
 import restaurant.data.data.Restaurant
+import scala.concurrent.ExecutionContext
 
 
 import spray.json.DefaultJsonProtocol._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 
 
-class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with ScalatestRouteTest
-    with RestaurantRoute {
+class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with ScalatestRouteTest with RestaurantRoute {
+        
+    override implicit val executionContext = ExecutionContext.global
+
     val uuid = "5dc94cbf-add9-11e7-b988-0242ac110002"
     val uuid2 = "5dc94e49-add9-11e7-b988-0242ac110002"
     val strRequest = """
@@ -168,7 +171,6 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
                 HttpMethods.PUT,
                 uri = "/api/restaurant/"+uuid2,
                 entity = HttpEntity(MediaTypes.`application/json`, jsonRequest2))
-            println("/api/restaurant/"+uuid2)
             updateRequest ~> route ~> check {
                  status should !==(StatusCodes.OK)
             }
