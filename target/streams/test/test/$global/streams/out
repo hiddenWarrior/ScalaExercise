@@ -1,0 +1,16 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(simplefuncs.FactorialSpec, org.scalatest.tools.Framework$$anon$1@2566f9b3, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(simplefuncs.RunLengthEncodeDecodeSpec, org.scalatest.tools.Framework$$anon$1@2566f9b3, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(simplefuncs.PalindromeSpec, org.scalatest.tools.Framework$$anon$1@2566f9b3, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(simplefuncs.Compose, org.scalatest.tools.Framework$$anon$1@2566f9b3, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(restaurant.api.RestaurantRoutesSpec, org.scalatest.tools.Framework$$anon$1@2566f9b3, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 2 seconds, 255 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 16[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 5, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 16, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	simplefuncs.PalindromeSpec[0m
+[0m[[0m[0mdebug[0m] [0m[0m	simplefuncs.RunLengthEncodeDecodeSpec[0m
+[0m[[0m[0mdebug[0m] [0m[0m	simplefuncs.FactorialSpec[0m
+[0m[[0m[0mdebug[0m] [0m[0m	restaurant.api.RestaurantRoutesSpec[0m
+[0m[[0m[0mdebug[0m] [0m[0m	simplefuncs.Compose[0m

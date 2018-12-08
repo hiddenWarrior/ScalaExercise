@@ -1,0 +1,7 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mFactorialSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mfactorial[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return 1 if input is zero[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mfactorial[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return 1 if input is 1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mfactorial[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should return 6 if input is 3[0m[0m
