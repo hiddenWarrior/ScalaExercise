@@ -17,24 +17,34 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import restaurant.data.data.{RestaurantData,Restaurant}
 
 
-// private case class RestaurantList(rests:List[Restaurant]){
-//     def append_if_exists(restaurant){
-//         restaurants.find(_.uuid == restaurant.uuid) match{
-//                     case Some(restaurant) => rests,false
-//                     case None => 
-//                     restaurants = rest :: restaurants,true
-//                     complete("done") 
-//         }
+case class RestaurantList(rests:List[Restaurant]){
+    def append_if_not_exists(restaurant: Restaurant):RestaurantList =  {
+        this.rests.find(_.uuid == restaurant.uuid) match{
+                    case Some(restaurant) => this//RestaurantList(rests)
+                    case None => RestaurantList(restaurant :: rests)
+        }
 
-//     }
-// }
+    }
+
+    def update_if_exists(uuid: String,restaurant: Restaurant): Tuple2[RestaurantList,Boolean] = {
+        this.rests.find(_.uuid == uuid) match{
+                    case Some(restaurant) => 
+                    (RestaurantList(rests.map{
+                        case Restaurant(restaurant.uuid,_) => restaurant
+                        case a => a   }),true)
+                    case None => (this,false)//RestaurantList(rests)
+        }
+    }
+    
+}
 
 object main extends JsonMarshaller with App{
 
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher
-    var restaurants = List[Restaurant]()
+    // var restaurants = List[Restaurant]()
+    var restaurants = RestaurantList(List[Restaurant]())
         
     val route =
       redirectToNoTrailingSlashIfPresent(StatusCodes.MovedPermanently) {
@@ -42,35 +52,51 @@ object main extends JsonMarshaller with App{
         
           get {
             parameters('closed.as[Boolean]) { closed =>
-              complete(restaurants.filter(_.data.closed == closed))
+              complete(restaurants.rests.filter(_.data.closed == closed))
               } ~
               pathEnd{
-                complete(restaurants)
+                complete(restaurants.rests)
               }
             
           } ~
           post {
                entity(as[Restaurant]){ rest =>
-                restaurants.find(_.uuid == rest.uuid) match{
-                    case Some(restaurant) => complete(StatusCodes.AlreadyReported)
-                    case None => 
-                    restaurants = rest :: restaurants
-                    complete("done") 
+                // restaurants.find(_.uuid == rest.uuid) match{
+                //     case Some(restaurant) => complete(StatusCodes.AlreadyReported)
+                //     case None => 
+                //     restaurants = rest :: restaurants
+                //     complete("done") 
+                // }
+                val new_restaurants = restaurants.append_if_not_exists(rest)
+                if(restaurants != new_restaurants){ 
+                    restaurants = new_restaurants
+                    complete("done")
                 }
+                else
+                complete(StatusCodes.AlreadyReported)
+
                 
               }
           } ~
           put{
             path(JavaUUID){ uuid =>
               entity(as[Restaurant]){ rest =>
-                restaurants.find(_.uuid == uuid) match{
-                    case Some(restaurant) => 
-                        new_restaurants = ()
-                    
-                    case None => 
-                    restaurants = rest :: restaurants
+              val (new_restaurants,updated) = restaurants.update_if_exists(uuid.toString,rest)
+                if(updated) {
+                    restaurants = new_restaurants
                     complete("done")
                 }
+                else{
+                    complete(StatusCodes.custom(409, "object not found", s"object with uuid $uuid not found"))
+                }
+                // restaurants.find(_.uuid == uuid) match{
+                //     case Some(restaurant) => 
+                //         new_restaurants = ()
+                    
+                //     case None => 
+                //     restaurants = rest :: restaurants
+                //     complete("done")
+                // }
               }
             }
           }
