@@ -1,8 +1,0 @@
-[0m[[0m[0minfo[0m] [0m[0m[32mRestaurantRoutesSpec:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mRestaurantRoutes[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should return empty list if no restaurants were added[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should be able to add restataurants (POST /api/restaurants)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should prevent adding duplicate restaurants (POST /api/restaurants)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should updating (PUT /api/restaurants/uuid)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should prevent request from updating not found object (PUT /api/restaurants/uuid)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should getting closed and opened restaurants only (GET /api/restaurants)[0m[0m

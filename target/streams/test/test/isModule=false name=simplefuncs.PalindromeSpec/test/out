@@ -1,7 +1,0 @@
-[0m[[0m[0minfo[0m] [0m[0m[32mPalindromeSpec:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mpalindrome[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should return true if input is "anna"[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mpalindrome[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should return true if input is "annna" (odd number of letters case)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mpalindrome[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should return true if input is "apple"[0m[0m
