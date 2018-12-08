@@ -20,8 +20,7 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
     with RestaurantRoute {
     val uuid = "5dc94cbf-add9-11e7-b988-0242ac110002"
     val uuid2 = "5dc94e49-add9-11e7-b988-0242ac110002"
-    val jsonRequest = ByteString(
-        """
+    val strRequest = """
             {
         "uuid": "5dc94cbf-add9-11e7-b988-0242ac110002",
         "data": {
@@ -45,8 +44,9 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
             "closed": true
         }
     }
-        """.stripMargin)
-     val jsonRequest2 = ByteString("""{
+        """.stripMargin
+    val jsonRequest = ByteString(strRequest)
+    val jsonRequest2 = ByteString("""{
         "uuid": "5dc94e49-add9-11e7-b988-0242ac110002",
         "data": {
             "enName": "Spago",
@@ -69,6 +69,7 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
             "closed": false
         }
     }""".stripMargin)
+    val jsonRequest3 = ByteString(strRequest.replace("false","true"))
 
   "RestaurantRoutes" should {
         "return empty list if no restaurants were added" in {
@@ -95,6 +96,13 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
                     // and we know what message we're expecting back:
                     entityAs[String] should ===("""done""")
             }
+            HttpRequest(uri = "/api/restaurant") ~> route ~> check {
+                status should ===(StatusCodes.OK)
+
+                // we expect the response to be json:
+                contentType should ===(ContentTypes.`application/json`)
+                entityAs[ List[Restaurant] ].head.uuid should ===(uuid)
+            }
         }
         "prevent adding duplicate restaurants (POST /api/restaurants)" in {
             
@@ -106,6 +114,14 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
             request ~> route
             request ~> route ~> check {
                 status should ===(StatusCodes.AlreadyReported)
+            }
+            
+            HttpRequest(uri = "/api/restaurant") ~> route ~> check {
+                status should ===(StatusCodes.OK)
+
+                // we expect the response to be json:
+                contentType should ===(ContentTypes.`application/json`)
+                entityAs[ List[Restaurant] ].length should ===(1)
             }
 
 
@@ -122,11 +138,20 @@ class RestaurantRoutesSpec extends WordSpec with Matchers with ScalaFutures with
             val updateRequest = HttpRequest(
                 HttpMethods.PUT,
                 uri = "/api/restaurant/"+uuid,
-                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
+                entity = HttpEntity(MediaTypes.`application/json`, jsonRequest3))
 
             updateRequest ~> route ~> check {
                  status should ===(StatusCodes.OK)
             }
+
+            HttpRequest(uri = "/api/restaurant") ~> route ~> check {
+                status should ===(StatusCodes.OK)
+
+                // we expect the response to be json:
+                contentType should ===(ContentTypes.`application/json`)
+                entityAs[ List[Restaurant] ].head.data.onlinePayment should ===(true)
+            }
+
 
 
         }

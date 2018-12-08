@@ -27,9 +27,9 @@ case class RestaurantList(rests:List[Restaurant]){
 
     def update_if_exists(uuid: String,restaurant: Restaurant): Tuple2[RestaurantList,Boolean] = {
         this.rests.find(_.uuid == uuid) match{
-                    case Some(restaurant) => 
+                    case Some(r) => 
                     (RestaurantList(rests.map{
-                        case Restaurant(restaurant.uuid,_) => restaurant
+                        case Restaurant(uuid,_) => restaurant
                         case a => a   }),true)
                     case None => (this,false)//RestaurantList(rests)
         }
