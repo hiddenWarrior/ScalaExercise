@@ -17,8 +17,8 @@ trait JsonMarshaller{
 
     def read(str: JsValue) = {
       str match {
-        case JsString(s) => if (s.isEmpty) None else Some(s)
-        case _ => None //throw new DeserializationException("Expected non empty string")
+        case JsString(s) => Some(s)
+        case _ => None
       }
     }
   }
