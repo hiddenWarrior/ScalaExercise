@@ -17,17 +17,42 @@ class FactorialSpec extends FlatSpec {
     }
 }
 
-class PalindromeSpec extends FlatSpec {
+class IsPalindromeSpec extends FlatSpec {
     "palindrome" should "return true if input is \"anna\"" in {
-        assert(SimpleFuncs.palindrome("anna") === true)
+        assert(SimpleFuncs.isPalindrome("anna") === true)
     }
     "palindrome" should "return true if input is \"annna\" (odd number of letters case)" in {
-        assert(SimpleFuncs.palindrome("annna") === true)
+        assert(SimpleFuncs.isPalindrome("annna") === true)
     }
 
-    "palindrome" should "return true if input is \"apple\"" in {
-        assert(SimpleFuncs.palindrome("apple") === false)
+    "palindrome" should "return true if input is \"rotator\"" in {
+        assert(SimpleFuncs.isPalindrome("rotator") === true)
     }
+
+    "palindrome" should "return true if input is \"noon\"" in {
+        assert(SimpleFuncs.isPalindrome("noon") === true)
+    }
+
+    "palindrome" should "return true if input is \"madam\"" in {
+        assert(SimpleFuncs.isPalindrome("madam") === true)
+    }
+
+    "palindrome" should "return true if input is \"mom\"" in {
+        assert(SimpleFuncs.isPalindrome("mom") === true)
+    }
+
+    "palindrome" should "return true if input is \"rada\"" in {
+        assert(SimpleFuncs.isPalindrome("radar") === true)
+    }
+
+    "palindrome" should "return true if input is \"refer\"" in {
+        assert(SimpleFuncs.isPalindrome("refer") === true)
+    }
+
+    "palindrome" should "return true if input is \"wow\"" in {
+        assert(SimpleFuncs.isPalindrome("wow") === true)
+    }
+
 
 }
 

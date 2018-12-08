@@ -5,7 +5,7 @@ import scala.collection.immutable.StringOps
 object SimpleFuncs{
     //i ignored negatives delibretaly because it would complicate things and this question is supposed to be simple
     def factorial(a:Int):Int = if (a < 0) factorial(-a) else if (a == 0 || a == 1) 1 else a * factorial(a-1)
-    def palindrome(a:String) = a == a.reverse
+    def isPalindrome(a:String) = a == a.reverse
     def runLengthEncode(str:String):String = {
         val strList = str.toList
         def runLengthEncode(strList: List[Char]):String ={
@@ -18,7 +18,7 @@ object SimpleFuncs{
         }
         runLengthEncode(strList)
     }
-    //this function will fail if you fail to keep the assumptions
+    //this function will fail if you fail to keep the assumptions(character after that the occurences even if 1)
     def runLengthDecode(str:String):String ={
         def runLengthDecode(strList: List[Char]):String = {
             def cosumeOneChar(strList: List[Char]): Tuple2[String,List[Char]] = {
