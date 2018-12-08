@@ -55,12 +55,6 @@ trait RestaurantRoute extends JsonMarshaller{
           } ~
           post {
                entity(as[Restaurant]){ rest =>
-                // restaurants.find(_.uuid == rest.uuid) match{
-                //     case Some(restaurant) => complete(StatusCodes.AlreadyReported)
-                //     case None => 
-                //     restaurants = rest :: restaurants
-                //     complete("done") 
-                // }
                 val new_restaurants = restaurants.append_if_not_exists(rest)
                 if(restaurants != new_restaurants){ 
                     restaurants = new_restaurants
@@ -83,15 +77,7 @@ trait RestaurantRoute extends JsonMarshaller{
                 else{
                     complete(StatusCodes.custom(409, "object not found", s"object with uuid $uuid not found"))
                 }
-                // restaurants.find(_.uuid == uuid) match{
-                //     case Some(restaurant) => 
-                //         new_restaurants = ()
-                    
-                //     case None => 
-                //     restaurants = rest :: restaurants
-                //     complete("done")
-                // }
-              }
+            }
             }
           }
 
