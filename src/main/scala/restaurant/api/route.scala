@@ -9,7 +9,7 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import scala.util.{ Failure, Success }
 import scala.concurrent.{Future, ExecutionContext}
 
-import restaurant.data.data.{RestaurantData,Restaurant}
+import restaurant.data.{RestaurantData,Restaurant}
 
 
 

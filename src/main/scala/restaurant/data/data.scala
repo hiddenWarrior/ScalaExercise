@@ -1,4 +1,4 @@
-package restaurant.data.data
+package restaurant.data
 
 case class RestaurantData(enName: String,arName: String,state: String,
 routingMethod: Option[String],logo :Option[String],coverPhoto: Option[String],enDescription: Option[String],

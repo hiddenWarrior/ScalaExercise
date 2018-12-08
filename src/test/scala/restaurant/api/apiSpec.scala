@@ -9,7 +9,7 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{ Matchers, WordSpec }
 import akka.util.ByteString
-import restaurant.data.data.Restaurant
+import restaurant.data.Restaurant
 import scala.concurrent.ExecutionContext
 
 

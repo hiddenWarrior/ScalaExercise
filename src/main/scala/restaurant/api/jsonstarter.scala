@@ -7,7 +7,7 @@ import spray.json.JsObject
 import spray.json.JsString
 import spray.json.JsValue
 import spray.json.JsonFormat
-import restaurant.data.data.{RestaurantData,Restaurant}
+import restaurant.data.{RestaurantData,Restaurant}
 
 
 
