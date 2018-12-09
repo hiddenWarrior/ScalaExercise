@@ -7,13 +7,17 @@ import spray.json.JsObject
 import spray.json.JsString
 import spray.json.JsValue
 import spray.json.JsonFormat
+import spray.json.JsNull
 import restaurant.data.{RestaurantData,Restaurant}
 
 
 
 trait JsonMarshaller{
     implicit object OptionFormat extends JsonFormat[Option[String]] {
-    def write(str: Option[String]) = JsString(str.getOrElse(""))
+    def write(str: Option[String]) = str match{
+      case Some(s) => JsString(s)
+      case _ => JsNull
+      }
 
     def read(str: JsValue) = {
       str match {
